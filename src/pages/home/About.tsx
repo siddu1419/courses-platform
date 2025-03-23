@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function About() {
   return (
     <section id="about" className="about-section py-20 bg-gradient-to-b from-blue-50 to-white">

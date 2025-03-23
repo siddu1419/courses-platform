@@ -1,5 +1,3 @@
-import React from 'react';
-
 type CourseCardProps = {
   name: string;
   cost: number;
@@ -13,7 +11,6 @@ type CourseCardProps = {
 
 export default function CourseCard({
   name,
-  cost,
   description,
   startDate,
   endDate,
