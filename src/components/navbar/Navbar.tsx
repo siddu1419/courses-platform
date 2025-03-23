@@ -1,21 +1,30 @@
-import { Link } from 'react-router-dom'
-import Logo from '../../assets/Logo'
-import useGlobalStore from '../../state/GlobalState'
+import { Link } from 'react-router-dom';
+import Logo from '../../assets/Logo';
+import useGlobalStore from '../../state/GlobalState';
 
 const navLinks = [
   { name: 'Courses', route: '#courses' },
-  { name: 'Instructors', route: '#instructors' },
-  { name: 'Pricing', route: '#pricing' },
-]
+  { name: 'About', route: '#about' },
+  { name: 'Testimonials', route: '#testimonials' },
+  { name: 'Blog', route: '#blog' },
+  { name: 'Contact', route: '#contact' },
+];
 
 export default function Navbar() {
-  const { setloginModalOpen, setsignupModalOpen, user } = useGlobalStore()
+  const { user } = useGlobalStore();
+
+  // Function to handle smooth scrolling
+  const handleScroll = (route: string) => {
+    const section = document.querySelector(route);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    // use container margins throughout, at lg, use your own rules
     <nav className='relative mt-6 max-w-[1920px] px-6 md:px-8 lg:px-12'>
       <OffCanvas />
-      {/* hamburger */}
+      {/* Hamburger */}
       <label
         htmlFor='my-drawer-4'
         className='btn drawer-button btn-sm absolute right-4 top-0 sm:hidden'
@@ -45,12 +54,16 @@ export default function Navbar() {
               key={name}
               href={route}
               className='btn btn-ghost btn-sm font-medium tracking-wider'
+              onClick={(e) => {
+                e.preventDefault(); // Prevent default anchor behavior
+                handleScroll(route); // Smooth scroll to the section
+              }}
             >
               {name}
             </a>
           ))}
         </div>
-        {user != null ? (
+        {user != null && (
           <div className='dropdown dropdown-end hidden sm:block'>
             <button className='btn btn-sm'>
               {user.name}
@@ -81,43 +94,31 @@ export default function Navbar() {
               </li>
             </ul>
           </div>
-        ) : (
-          <div className='hidden gap-3 sm:flex'>
-            <button
-              onClick={() => {
-                setloginModalOpen(true)
-              }}
-              className='btn-ghost-custom text-base'
-            >
-              Login
-            </button>
-            <button
-              onClick={() => {
-                setsignupModalOpen(true)
-              }}
-              className='btn-neutral-custom text-base'
-            >
-              Register
-            </button>
-          </div>
         )}
       </div>
     </nav>
-  )
+  );
 }
 
 function OffCanvas() {
-  const { setloginModalOpen, setsignupModalOpen, user } = useGlobalStore()
+  const { user } = useGlobalStore();
 
   const handleClose = () => {
     const checkBoxToggle: any =
-      document.getElementsByClassName('drawer-toggle')[0]
-    checkBoxToggle.checked = false
-  }
+      document.getElementsByClassName('drawer-toggle')[0];
+    checkBoxToggle.checked = false;
+  };
+
+  // Function to handle smooth scrolling
+  const handleScroll = (route: string) => {
+    const section = document.querySelector(route);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className='drawer drawer-end relative z-10'>
-      {/* close button */}
-
       <input id='my-drawer-4' type='checkbox' className='drawer-toggle' />
       <div className='drawer-content'>{/* Page content here */}</div>
       <div className='drawer-side'>
@@ -150,11 +151,19 @@ function OffCanvas() {
           {/* Sidebar content here */}
           {navLinks.map((x, i) => (
             <li key={i}>
-              <a href={x.route}>{x.name}</a>
+              <a
+                href={x.route}
+                onClick={(e) => {
+                  e.preventDefault(); // Prevent default anchor behavior
+                  handleScroll(x.route); // Smooth scroll to the section
+                }}
+              >
+                {x.name}
+              </a>
             </li>
           ))}
 
-          {user != null ? (
+          {user != null && (
             <>
               <li className='mt-auto'>
                 <span className='pointer-events-none cursor-none bg-base-300 font-medium'>
@@ -168,34 +177,9 @@ function OffCanvas() {
                 <Link to={'/logout'}>Logout</Link>
               </li>
             </>
-          ) : (
-            <>
-              {' '}
-              <li className='mt-auto'>
-                {' '}
-                <button
-                  onClick={() => {
-                    setloginModalOpen(true)
-                  }}
-                  className='btn btn-outline btn-sm font-normal'
-                >
-                  Login
-                </button>
-              </li>
-              <li className='mt-4'>
-                <button
-                  onClick={() => {
-                    setsignupModalOpen(true)
-                  }}
-                  className='btn btn-neutral btn-sm font-normal'
-                >
-                  Register
-                </button>
-              </li>
-            </>
           )}
         </ul>
       </div>
     </div>
-  )
+  );
 }

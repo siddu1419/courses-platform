@@ -1,107 +1,98 @@
-import StarIcon from '../../assets/StarIcon'
-import PageHeading from '../../components/PageHeading'
+import StarIcon from '../../assets/StarIcon';
+import PageHeading from '../../components/PageHeading';
 
 export default function Testimonials() {
   const testimonials = [
     {
-      name: 'John Smith',
-      designation: 'Software Engineer',
-      courseTaken: 'Web Development Bootcamp',
-      review: 'Great bootcamp! Very informative. ',
+      name: 'Nivrithi',
+      review: 'Every class with Dileep sir is a mix of fun, learning, and deep understanding. He takes the time to ensure that each student gets the concept, often using creative methods to explain topics. His friendly and open nature makes it easy to ask questions and learn without hesitation.',
       rating: 5,
     },
     {
-      name: 'Emily Johnson',
-      designation: 'Graphic Designer',
-      courseTaken: 'UI/UX Design Fundamentals',
-      review:
-        "Awesome course! I found the instructors to be highly knowledgeable and approachable. The content was presented in a clear and concise manner, making it easy to follow. This course has significantly enhanced my design skills, providing me with valuable insights and practical techniques. I'm truly grateful for the enriching learning experience it has offered me.",
-      rating: 4,
-    },
-    {
-      name: 'Michael Brown',
-      designation: 'Entrepreneur',
-      courseTaken: 'Business Strategy Masterclass',
-      review:
-        'Exceptional content! The course provided valuable insights and practical strategies. I feel more confident in scaling my business after completing it.',
+      name: 'Rahul',
+      review: 'Dileep sir makes physics incredibly fun and interactive. He brings concepts to life with real-world examples and physical objects, making even the toughest topics easy to grasp. His friendly and talkative nature ensures that every class feels engaging and enjoyable.',
       rating: 5,
-      classVars: 'md:-mt-[7.5rem]',
     },
     {
-      name: 'Anna Chen',
-      designation: 'Student at NYU',
-      courseTaken: 'Data Science Essentials',
-      review:
-        'Highly recommend this course! It covers a wide range of topics and the instructors are excellent. The hands-on exercises were especially helpful for understanding complex concepts.',
-      rating: 4,
-    },
-    {
-      name: 'David Lee',
-      designation: 'Marketing Manager',
-      courseTaken: 'Digital Marketing Fundamentals',
-      review:
-        'Outstanding course! I gained valuable knowledge and practical skills that I could immediately apply to my work. Worth every penny!',
+      name: 'Vidhya Charan',
+      review: 'One of the best teachers I’ve ever had! Dileep sir makes physics feel easy with his interactive approach. He connects with students on a personal level, ensuring that everyone understands. His ability to simplify complex topics is truly remarkable.',
       rating: 5,
-      classVars: 'md:-mt-[7.5rem]',
     },
-  ]
+    {
+      name: 'Aakanksha',
+      review: 'A teacher like Dileep sir is hard to find. He combines knowledge with enthusiasm, making physics both exciting and easy to understand. His interactive teaching style keeps students engaged, and his willingness to explain concepts repeatedly ensures that no one is left confused.',
+      rating: 5,
+    },
+    {
+      name: 'Yashwanth',
+      review: 'Who needs a lab when you have Dileep sir? He used a simple door to explain torque, showing us how pushing from different points changes the force needed. Every class feels like a discovery, not just a lesson.',
+      rating: 5,
+    },
+    {
+      name: 'Samiksha',
+      review: 'We never know what to expect in Dileep sir’s class! He once used a disc to explain moment of inertia and made it roll on the floor to show how mass distribution affects motion. Learning from him feels more like exploring than studying!',
+      rating: 5,
+    },
+    {
+      name: 'Nabiha',
+      review: 'Instead of drawing diagrams on the board, Dileep sir just picks up random objects—water bottles, keys, books, anything nearby—and turns them into physics experiments. It makes us feel like we’re actually discovering the concepts instead of just listening to them.',
+      rating: 5,
+    },
+    {
+      name: 'Sameer',
+      review: 'Dileep sir makes sure we don’t just understand physics but feel it! He used a fidget spinner to show angular momentum, and suddenly, we could all picture how gyroscopes work. His classes are like watching physics come alive!',
+      rating: 5,
+    },
+    {
+      name: 'Vamshi',
+      review: 'The best part is that no one in class hesitates to speak up—everyone is expressive, asking doubts freely and discussing concepts without fear. Unlike other classes where students stay silent, here, we actually engage and learn together.',
+      rating: 5,
+    },
+  ];
+
   return (
-    <section className='testimonials mt-28 lg:mt-44'>
-      <PageHeading h1='Testimonials' h2='Student voices' />
-      <p className='mx-auto max-w-3xl text-center font-light text-neutral lg:text-lg'>
-        Don’t just take our word for it. Hear from our students from all walks
-        of life as they share the impact of our courses in their educational
-        journey
+    <section id="testimonials" className="testimonials mt-28 lg:mt-44">
+      <PageHeading h1="Testimonials" h2="Student voices" />
+      <p className="mx-auto max-w-3xl text-center font-light text-neutral lg:text-lg">
+        Don’t just take our word for it. Hear from our students from all walks of
+        life as they share the impact of our courses in their educational journey.
       </p>
 
-      <div className='testimonial-cards-container mt-16 grid grid-rows-1 items-start gap-x-12 gap-y-10 md:grid-cols-2 md:grid-rows-[unset]'>
+      {/* Grid Container */}
+      <div className="testimonial-cards-container mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {testimonials.map((x, i) => (
           <TestimonialCard key={i} {...x} />
         ))}
       </div>
     </section>
-  )
+  );
 }
+
 type T = {
-  name: string
-  designation: string
-  courseTaken: string
-  review: string
-  rating: number
-  classVars?: string
-}
-function TestimonialCard({
-  name,
-  designation,
-  courseTaken,
-  review,
-  rating,
-  classVars = '',
-}: T) {
+  name: string;
+  review: string;
+  rating: number;
+};
+
+function TestimonialCard({ name, review, rating }: T) {
   return (
-    <article
-      className={`testimonial-card smooth-box-shadow relative flex flex-col gap-3 rounded-md px-8 py-10 ${classVars}`}
-    >
-      <div className='image flex gap-3'>
-        <div className='image-container aspect-square h-10 rounded-full bg-neutral'></div>
-        <div className='image-caption'>
-          <h2 className='text-accent-content'>{name}</h2>
-          <h4 className='text-xs text-neutral'>{designation}</h4>
-        </div>
-        <div className='ms-auto flex'>
-          {Array(4)
-            .fill(rating)
+    <article className="testimonial-card relative flex flex-col gap-4 rounded-lg bg-white p-6">
+      {/* Reviewer Name and Rating */}
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-semibold text-gray-800">{name}</h2>
+        <div className="flex">
+          {Array(rating)
+            .fill(0)
             .map((_, i) => (
-              <span key={i}>
+              <span key={i} className="text-yellow-400">
                 <StarIcon />
               </span>
             ))}
         </div>
       </div>
-      <div className='body mt-2 flex flex-col gap-2'>
-        <h3 className='text-lg'>{courseTaken}</h3>
-        <p className='font-light text-text-gray-400'>{review}</p>
-      </div>
+
+      {/* Review Text */}
+      <p className="mt-2 text-sm font-light text-gray-600">{review}</p>
     </article>
-  )
+  );
 }

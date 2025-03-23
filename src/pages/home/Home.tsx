@@ -1,21 +1,19 @@
 import Courses from './Courses'
-import Features from './Features'
-import Instructors from './Instructors'
 import Main from './Main'
-import Pricing from './Pricing'
-import Stats from './Stats'
+import About from './About'
+import Blog from './Blog'
 import Testimonials from './Testimonials'
+import Contact from './Contact'
 
 export default function Home() {
   return (
     <>
       <Main />
-      <Features />
+      <About />
       <Courses />
-      <Stats />
-      <Instructors />
       <Testimonials />
-      <Pricing />
+      <Blog /> 
+      <Contact /> 
     </>
   )
 }
