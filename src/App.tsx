@@ -3,6 +3,7 @@ import Navbar from './components/navbar/Navbar'
 import NotFound from './pages/NotFound'
 import Container from './components/Container'
 import Home from './pages/home/Home'
+import PrivacyPolicy from './pages/home/PrivacyPolicy'
 import Signin from './pages/auth/Signin'
 import useGlobalStore from './state/GlobalState'
 import UserHome from './pages/user/UserHome'
@@ -22,6 +23,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path='user' element={<UserHome />} />
           <Route path='logout' element={<Logout />} />
+          <Route path='privacy-policy' element={<PrivacyPolicy />} />
           <Route path='*' element={<NotFound />} />
         </Route>
       </Routes>

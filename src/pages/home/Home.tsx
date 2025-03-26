@@ -4,6 +4,7 @@ import About from './About'
 import Blog from './Blog'
 import Testimonials from './Testimonials'
 import Contact from './Contact'
+import PrivacyNotice from './PrivacyNotice'
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <Testimonials />
       <Blog /> 
       <Contact /> 
+      <PrivacyNotice/>
     </>
   )
 }
