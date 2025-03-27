@@ -203,6 +203,42 @@ export default function Courses() {
       },
     },
     {
+      name: '12th Topics Advanced - Recorded Classes',
+      cost: 49,
+      description: 'Designed for students who want to prepare at their own pace, this course offers in-depth recorded lessons covering all 12th-grade physics topics with engaging physics simulations and step-by-step problem-solving methods. Perfect for revision and last-minute prep!',
+      startDate: 'Immediate Access',
+      endDate: 'Lifetime Access',
+      benefits: [
+        'Structured HD video lessons covering all key topics',
+        'Physics simulators for interactive learning',
+        'Exam-oriented problem-solving approaches',
+        'Self-assessment quizzes & practice problems',
+        'Printable formula sheets & concept summaries',
+      ],
+      image: twelveRec,
+      modalContent: {
+        header: 'ExamTrakker Recorded Sessions for 12th Standard Physics',
+        intro: 'Missed out on our exclusive live classes? No worries—our treasure trove of recorded sessions is here to power up your physics journey at your own pace! Perfect for JEE & NEET aspirants, these top-notch lectures cover everything you need to ace 12th Standard Physics, and they come with weekly doubt sessions to clear up any confusion along the way.',
+        topics: [
+          'Electrostatics: Electric Charges and Fields, Gauss’s Law, Electrostatic Potential and Capacitance',
+          'Current Electricity: Electric Current and Ohm’s Law, Kirchhoff’s Laws and Applications, Electrical Energy and Power',
+          'Magnetic Effects of Current and Magnetism: Moving Charges and Magnetism, Magnetism and Matter',
+          'Electromagnetic Induction and Alternating Currents: Faraday’s Law, Alternating Current Circuits',
+          'Electromagnetic Waves: Characteristics and Properties of Electromagnetic Waves',
+          'Optics: Ray Optics and Optical Instruments, Wave Optics',
+          'Dual Nature of Radiation and Matter: Photoelectric Effect, Matter Waves',
+          'Atoms and Nuclei: Atomic Models, Radioactivity',
+          'Electronic Devices: Semiconductor Electronics',
+        ],
+        features: [
+          'Recorded Lectures: Instant access to a rich library of high-quality sessions—learn anytime, anywhere. Your videos are available for 2 years!',
+          'Weekly Doubt Sessions: Join our live doubt-clearing events each week to get expert help on any sticking points.',
+          'Practice Materials & Mock Tests: Tons of worksheets and mock exams to boost your confidence and exam readiness.',
+        ],
+        additionalMessage: 'Ready to level up your physics game?\n\nGrab your access now and join the ExamTrakker community—where brilliant minds meet flexibility and fun!',
+      },
+    },
+    {
       name: 'Crash course for JEE advanced',
       cost: 34,
       description: '', // Empty description as per requirement

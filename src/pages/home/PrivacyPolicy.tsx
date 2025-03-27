@@ -12,6 +12,7 @@ export default function PrivacyPolicy() {
           <ul className="list-disc pl-6">
             <li><strong>Personal Information:</strong> Name, email address, phone number, billing details, and other details provided during account registration.</li>
             <li><strong>Payment Information:</strong> Payment details such as credit/debit card information, UPI ID, and net banking details for processing transactions.</li>
+            <li><strong>Usage Data:</strong> Information on how you interact with our Platform, including accessed courses, MCQs attempted, blog interactions, and participation in forums.</li>
             <li><strong>Device and Technical Data:</strong> IP address, browser type, operating system, and technical logs to improve Platform performance and security.</li>
           </ul>
           
@@ -38,7 +39,7 @@ export default function PrivacyPolicy() {
           <h3 className="font-semibold mt-4">5. User Rights and Choices</h3>
           <ul className="list-disc pl-6">
             <li>Access, update, or correct your personal information.</li>
-            <li>Request deletion of your account by contacting our admin team via Contact Us.</li>
+            <li>Opt out of promotional emails by following the unsubscribe instructions in the emails.</li>
           </ul>
           
           <h3 className="font-semibold mt-4">6. Data Retention</h3>
@@ -53,8 +54,11 @@ export default function PrivacyPolicy() {
           <h3 className="font-semibold mt-4">9. Governing Law</h3>
           <p>This Privacy Policy is governed by the laws of India. Any disputes shall be subject to the exclusive jurisdiction of courts in Hyderabad.</p>
           
-          <h3 className="font-semibold mt-4">10. Contact Us</h3>
-          <p>For any privacy-related concerns or requests, please reach out to our support team via the Contact Us page.</p>
+          <h3 className="font-semibold mt-4">10. Return & Refund Policy</h3>
+          <p>If you wish to cancel a product or request a refund, please reach out to our support team via our support mail. Refunds are subject to our cancellation policy, and eligibility will be reviewed on a case-by-case basis.</p>
+          
+          <h3 className="font-semibold mt-4">11. Contact Us</h3>
+          <p>For any privacy-related concerns or requests, please reach out to our support team via our support mail.</p>
           
           <p className="mt-6">By using EXAMTRAKKER, you acknowledge that you have read, understood, and agreed to this Privacy Policy.</p>
         </div>
