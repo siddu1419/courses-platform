@@ -414,17 +414,57 @@ export default function Courses() {
                     )}
                     
                     {/* Enroll Button */}
-                    <button
-                      onClick={() => course.startDate !== 'Coming Soon' && handleEnrollClick(course)}
-                      disabled={course.startDate === 'Coming Soon'}
-                      className={`mt-auto w-full py-2 px-4 rounded-lg font-medium ${
-                        course.startDate === 'Coming Soon'
-                          ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
-                          : 'bg-blue-600 text-white hover:bg-blue-700 transition-colors'
-                      }`}
-                    >
-                      {course.startDate === 'Coming Soon' ? 'Coming Soon' : 'Enroll Now'}
-                    </button>
+                    <div className="mt-auto space-y-2">
+                      {course.name.toLowerCase().includes('live') ? (
+                        <>
+                          {/* First Batch Button - Disabled */}
+                          <button
+                            disabled
+                            className="w-full py-2 px-4 rounded-lg font-medium bg-gray-200 text-gray-500 line-through cursor-not-allowed flex items-center justify-center"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-5 w-5 mr-2"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                            1st Batch Sold Out
+                          </button>
+                          
+                          {/* Enroll Now Button */}
+                          <button
+                            onClick={() => handleEnrollClick(course)}
+                            disabled={course.startDate === 'Coming Soon'}
+                            className={`w-full py-2 px-4 rounded-lg font-medium ${
+                              course.startDate === 'Coming Soon'
+                                ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                                : 'bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900 transition-all shadow-md'
+                            }`}
+                          >
+                            Enroll Now
+                          </button>
+                        </>
+                      ) : (
+                        /* Regular Single Button for non-Live courses */
+                        <button
+                          onClick={() => course.startDate !== 'Coming Soon' && handleEnrollClick(course)}
+                          disabled={course.startDate === 'Coming Soon'}
+                          className={`w-full py-2 px-4 rounded-lg font-medium ${
+                            course.startDate === 'Coming Soon'
+                              ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                              : 'bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900 transition-all shadow-md'
+                          }`}
+                        >
+                          {course.startDate === 'Coming Soon' ? 'Coming Soon' : 'Enroll Now'}
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
