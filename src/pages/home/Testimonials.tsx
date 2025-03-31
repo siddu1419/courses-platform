@@ -1,5 +1,75 @@
-import StarIcon from '../../assets/StarIcon';
 import PageHeading from '../../components/PageHeading';
+
+// Star Icon Components
+function StarIconFilled({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+    </svg>
+  );
+}
+
+function StarIconOutline({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+    </svg>
+  );
+}
+
+function QuoteIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.017 5.395a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13Zm-8.034 0a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13Z" />
+    </svg>
+  );
+}
+
+type TestimonialProps = {
+  name: string;
+  review: string;
+  rating: number;
+};
+
+function TestimonialCard({ name, review, rating }: TestimonialProps) {
+  return (
+    <article className="relative bg-white rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+      <div className="p-6 flex-grow">
+        <div className="mb-4">
+          <QuoteIcon className="w-8 h-8 text-orange-500 opacity-20" />
+        </div>
+        
+        <p className="text-gray-700 mb-6 text-lg leading-relaxed">
+          {review}
+        </p>
+      </div>
+      
+      <div className="px-6 pb-6 mt-auto">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-xl font-bold text-gray-900">{name}</h3>
+            <div className="flex mt-1">
+              {Array.from({ length: 5 }).map((_, i) => (
+                i < rating ? (
+                  <StarIconFilled key={i} className="w-5 h-5 text-orange-500" />
+                ) : (
+                  <StarIconOutline key={i} className="w-5 h-5 text-orange-500" />
+                )
+              ))}
+            </div>
+          </div>
+          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-100 to-blue-100 flex items-center justify-center">
+            <span className="text-orange-600 font-bold text-lg">
+              {name.charAt(0)}
+            </span>
+          </div>
+        </div>
+      </div>
+      
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 to-blue-600"></div>
+    </article>
+  );
+}
 
 export default function Testimonials() {
   const testimonials = [
@@ -15,7 +85,7 @@ export default function Testimonials() {
     },
     {
       name: 'Vidhya Charan',
-      review: 'One of the best teachers I’ve ever had! Dileep sir makes physics feel easy with his interactive approach. He connects with students on a personal level, ensuring that everyone understands. His ability to simplify complex topics is truly remarkable.',
+      review: "One of the best teachers I've ever had! Dileep sir makes physics feel easy with his interactive approach. He connects with students on a personal level, ensuring that everyone understands. His ability to simplify complex topics is truly remarkable.",
       rating: 5,
     },
     {
@@ -30,69 +100,31 @@ export default function Testimonials() {
     },
     {
       name: 'Samiksha',
-      review: 'We never know what to expect in Dileep sir’s class! He once used a disc to explain moment of inertia and made it roll on the floor to show how mass distribution affects motion. Learning from him feels more like exploring than studying!',
-      rating: 5,
-    },
-    {
-      name: 'Nabiha',
-      review: 'Instead of drawing diagrams on the board, Dileep sir just picks up random objects—water bottles, keys, books, anything nearby—and turns them into physics experiments. It makes us feel like we’re actually discovering the concepts instead of just listening to them.',
-      rating: 5,
-    },
-    {
-      name: 'Sameer',
-      review: 'Dileep sir makes sure we don’t just understand physics but feel it! He used a fidget spinner to show angular momentum, and suddenly, we could all picture how gyroscopes work. His classes are like watching physics come alive!',
-      rating: 5,
-    },
-    {
-      name: 'Vamshi',
-      review: 'The best part is that no one in class hesitates to speak up—everyone is expressive, asking doubts freely and discussing concepts without fear. Unlike other classes where students stay silent, here, we actually engage and learn together.',
+      review: "We never know what to expect in Dileep sir's class! He once used a disc to explain moment of inertia and made it roll on the floor to show how mass distribution affects motion. Learning from him feels more like exploring than studying!",
       rating: 5,
     },
   ];
 
   return (
-    <section id="testimonials" className="testimonials mt-28 lg:mt-44">
-      <PageHeading h1="Testimonials" h2="Student voices" />
-      <p className="mx-auto max-w-3xl text-center font-light text-neutral lg:text-lg">
-        Don’t just take our word for it. Hear from our students from all walks of
-        life as they share the impact of our courses in their educational journey.
-      </p>
+    <section id="testimonials" className="py-16 bg-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+        <div className="text-center mb-12">
+          <PageHeading 
+            h1="What Students Say"
+            h2="Testimonials"
+          />
+        </div>
+        
+        <p className="mx-auto max-w-3xl text-center text-lg text-gray-600 mb-12">
+          Don't just take our word for it. Hear from students who've experienced our unique approach to learning physics.
+        </p>
 
-      {/* Grid Container */}
-      <div className="testimonial-cards-container mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {testimonials.map((x, i) => (
-          <TestimonialCard key={i} {...x} />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-type T = {
-  name: string;
-  review: string;
-  rating: number;
-};
-
-function TestimonialCard({ name, review, rating }: T) {
-  return (
-    <article className="testimonial-card relative flex flex-col gap-4 rounded-lg bg-white p-6">
-      {/* Reviewer Name and Rating */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-gray-800">{name}</h2>
-        <div className="flex">
-          {Array(rating)
-            .fill(0)
-            .map((_, i) => (
-              <span key={i} className="text-yellow-400">
-                <StarIcon />
-              </span>
-            ))}
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {testimonials.map((testimonial, index) => (
+            <TestimonialCard key={index} {...testimonial} />
+          ))}
         </div>
       </div>
-
-      {/* Review Text */}
-      <p className="mt-2 text-sm font-light text-gray-600">{review}</p>
-    </article>
+    </section>
   );
 }
