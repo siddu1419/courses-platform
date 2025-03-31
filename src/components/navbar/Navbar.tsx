@@ -13,7 +13,6 @@ const navLinks = [
 export default function Navbar() {
   const { user } = useGlobalStore();
 
-  // Function to handle smooth scrolling
   const handleScroll = (route: string) => {
     const section = document.querySelector(route);
     if (section) {
@@ -22,163 +21,211 @@ export default function Navbar() {
   };
 
   return (
-    <nav className='relative mt-6 max-w-[1920px] px-6 md:px-8 lg:px-12'>
-      <OffCanvas />
-      {/* Hamburger */}
-      <label
-        htmlFor='my-drawer-4'
-        className='btn drawer-button btn-sm absolute right-4 top-0 sm:hidden'
-      >
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          fill='none'
-          viewBox='0 0 24 24'
-          strokeWidth={1.5}
-          stroke='currentColor'
-          className='h-6 w-6'
-        >
-          <path
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            d='M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5'
-          />
-        </svg>
-      </label>
-      <div className='nav-content-wrapper flex justify-between text-base'>
-        <Link to={'/'} id='logo' className='w-36 min-w-36'>
-          <Logo />
-        </Link>
-        <div className='hidden justify-between gap-6 sm:flex'>
-          {navLinks.map(({ name, route }) => (
-            <a
-              key={name}
-              href={route}
-              className='btn btn-ghost btn-sm font-medium tracking-wider'
-              onClick={(e) => {
-                e.preventDefault(); // Prevent default anchor behavior
-                handleScroll(route); // Smooth scroll to the section
-              }}
-            >
-              {name}
-            </a>
-          ))}
-        </div>
-        {user != null && (
-          <div className='dropdown dropdown-end hidden sm:block'>
-            <button className='btn btn-sm'>
-              {user.name}
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth={1.8}
-                stroke='currentColor'
-                className='h-6 w-6'
+    <nav className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md transition-all duration-300 hover:bg-white/90">
+      <div className="mx-auto max-w-7xl px-6 py-4 md:px-8 lg:px-12">
+        <div className="relative flex items-center justify-between">
+          {/* Logo */}
+          <Link 
+            to="/" 
+            className="group relative z-10 flex items-center gap-2"
+          >
+            <div className="transition-transform duration-300 group-hover:scale-110">
+              <Logo />
+            </div>
+            <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-gradient-to-r from-blue-600 to-orange-500 transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden items-center gap-1 md:flex">
+            {navLinks.map(({ name, route }) => (
+              <button
+                key={name}
+                onClick={() => handleScroll(route)}
+                className="group relative rounded-lg px-4 py-2 font-medium text-gray-700 transition-all duration-300 hover:text-blue-600"
               >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z'
-                />
-              </svg>
-            </button>
-            <ul
-              tabIndex={0}
-              className='menu dropdown-content z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow'
-            >
-              <li>
-                <Link to={'/user'}>Profile</Link>
-              </li>
-              <li>
-                <Link to={'/logout'}>Logout</Link>
-              </li>
-            </ul>
+                {name}
+                <span className="absolute bottom-0 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-orange-500 transition-all duration-300 group-hover:w-3/4"></span>
+              </button>
+            ))}
+
+            {user && (
+              <div className="dropdown-end dropdown ml-4">
+                <button
+                  tabIndex={0}
+                  className="group flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-50 to-orange-50 px-4 py-2 font-medium text-gray-800 transition-all duration-300 hover:from-blue-100 hover:to-orange-100"
+                >
+                  <span className="truncate max-w-[120px]">{user.name}</span>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-orange-500 text-white transition-transform duration-300 group-hover:rotate-12">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="h-5 w-5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </button>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content menu rounded-box mt-2 w-52 bg-white p-2 shadow-xl"
+                >
+                  <li>
+                    <Link
+                      to="/user"
+                      className="rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                    >
+                      Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/logout"
+                      className="rounded-lg text-gray-700 hover:bg-orange-50 hover:text-orange-600"
+                    >
+                      Logout
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
-        )}
+
+          {/* Mobile Hamburger */}
+          <label
+            htmlFor="mobile-drawer"
+            className="btn-ghost btn-circle btn relative z-10 md:hidden"
+          >
+            <div className="space-y-1.5">
+              <span className="block h-0.5 w-6 bg-gray-700 transition-all duration-300"></span>
+              <span className="block h-0.5 w-6 bg-gray-700 transition-all duration-300"></span>
+              <span className="block h-0.5 w-6 bg-gray-700 transition-all duration-300"></span>
+            </div>
+          </label>
+        </div>
       </div>
+
+      {/* Mobile Drawer */}
+      <MobileDrawer user={user} />
     </nav>
   );
 }
 
-function OffCanvas() {
-  const { user } = useGlobalStore();
-
+function MobileDrawer({ user }: { user: any }) {
   const handleClose = () => {
-    const checkBoxToggle: any =
-      document.getElementsByClassName('drawer-toggle')[0];
-    checkBoxToggle.checked = false;
+    const checkBoxToggle = document.getElementById(
+      'mobile-drawer'
+    ) as HTMLInputElement;
+    if (checkBoxToggle) checkBoxToggle.checked = false;
   };
 
-  // Function to handle smooth scrolling
   const handleScroll = (route: string) => {
     const section = document.querySelector(route);
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
+      handleClose();
     }
   };
 
   return (
-    <div className='drawer drawer-end relative z-10'>
-      <input id='my-drawer-4' type='checkbox' className='drawer-toggle' />
-      <div className='drawer-content'>{/* Page content here */}</div>
-      <div className='drawer-side'>
+    <div className="drawer drawer-end z-50">
+      <input id="mobile-drawer" type="checkbox" className="drawer-toggle" />
+      <div className="drawer-side">
         <label
-          htmlFor='my-drawer-4'
-          aria-label='close sidebar'
-          className='drawer-overlay'
+          htmlFor="mobile-drawer"
+          aria-label="close sidebar"
+          className="drawer-overlay"
         ></label>
-        <ul className='menu relative min-h-full w-72 bg-base-200 p-4 pt-14 text-base-content'>
-          <span
-            className='close-btn btn btn-sm absolute right-2 top-4 z-10 cursor-pointer rounded-full px-1 sm:hidden'
+        <div className="menu relative h-full w-80 space-y-2 bg-white p-6">
+          {/* Close Button */}
+          <button
             onClick={handleClose}
+            className="btn-ghost btn-circle btn absolute right-2 top-2"
           >
             <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-              strokeWidth={1.5}
-              stroke='currentColor'
-              className='h-6 w-6'
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
               <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
               />
             </svg>
-          </span>
+          </button>
 
-          {/* Sidebar content here */}
-          {navLinks.map((x, i) => (
-            <li key={i}>
-              <a
-                href={x.route}
-                onClick={(e) => {
-                  e.preventDefault(); // Prevent default anchor behavior
-                  handleScroll(x.route); // Smooth scroll to the section
-                }}
+          {/* Navigation Links */}
+          <div className="mt-12 space-y-1">
+            {navLinks.map(({ name, route }) => (
+              <button
+                key={name}
+                onClick={() => handleScroll(route)}
+                className="group flex w-full items-center rounded-lg px-4 py-3 text-lg font-medium text-gray-700 transition-all duration-300 hover:bg-blue-50 hover:text-blue-600"
               >
-                {x.name}
-              </a>
-            </li>
-          ))}
+                {name}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="ml-auto h-5 w-5 opacity-0 transition-all duration-300 group-hover:opacity-100"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+            ))}
+          </div>
 
-          {user != null && (
-            <>
-              <li className='mt-auto'>
-                <span className='pointer-events-none cursor-none bg-base-300 font-medium'>
-                  Signed in as {user.name}
-                </span>
-              </li>
-              <li>
-                <Link to={'/user'}>Profile</Link>
-              </li>
-              <li>
-                <Link to={'/logout'}>Logout</Link>
-              </li>
-            </>
+          {/* User Section */}
+          {user && (
+            <div className="mt-auto border-t border-gray-100 pt-4">
+              <div className="flex items-center gap-3 px-4 py-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-orange-500 text-white">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="h-5 w-5"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-medium text-gray-900">{user.name}</p>
+                  <p className="text-sm text-gray-500">Student Account</p>
+                </div>
+              </div>
+
+              <Link
+                to="/user"
+                className="flex items-center rounded-lg px-4 py-3 text-gray-700 transition-all duration-300 hover:bg-blue-50 hover:text-blue-600"
+              >
+                Profile
+              </Link>
+              <Link
+                to="/logout"
+                className="flex items-center rounded-lg px-4 py-3 text-gray-700 transition-all duration-300 hover:bg-orange-50 hover:text-orange-600"
+              >
+                Logout
+              </Link>
+            </div>
           )}
-        </ul>
+        </div>
       </div>
     </div>
   );
