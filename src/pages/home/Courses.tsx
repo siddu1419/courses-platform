@@ -562,14 +562,25 @@ export default function Courses() {
                     />
                   </div>
                   <div className="pt-4">
-                    <button
-                      type="button"
-                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-md"
-                      onClick={handleRazorpayPayment}
-                    >
-                      Pay ₹{selectedCourse.cost.toLocaleString('en-IN')}
-                    </button>
-                  </div>
+  {selectedCourse.name.toLowerCase().includes('live') ? (
+    <a
+      href="https://tally.so/r/wzLBNa"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-md text-center"
+    >
+      Apply Now
+    </a>
+  ) : (
+    <button
+      type="button"
+      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-md"
+      onClick={handleRazorpayPayment}
+    >
+      Pay ₹{selectedCourse.cost.toLocaleString('en-IN')}
+    </button>
+  )}
+</div>
                 </form>
               </div>
             </div>
