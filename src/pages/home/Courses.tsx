@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PageHeading from '../../components/PageHeading';
-import CourseCard from '../../pages/home/CourseCard';
-import eleventhLive from '../../assets/11_class_live.jpeg';
-import twelveLive from '../../assets/12_class_live.jpeg';
-import eleventhRec from '../../assets/11_class_rec.jpeg';
-import twelveRec from '../../assets/12_class_rec.jpeg';
+import eleventhLive from '../../assets/11-Live.jpeg';
+import twelveLive from '../../assets/12-Live.jpeg';
+import eleventhRec from '../../assets/11-Recorded.jpeg';
+import twelveRec from '../../assets/12-Recorded.jpeg';
+import jeeAdvanced from '../../assets/JEE-Advanced-Live.jpeg';
+import comingSoon from '../../assets/Coming-Soon.jpeg';
 
 declare global {
   interface Window {
@@ -42,7 +43,7 @@ export default function Courses() {
   const courses: Course[] = [
     {
       name: '11th Topics - Live Online Classes',
-      cost: 1,
+      cost: 59999,
       description: 'This course is designed to make physics fun, interactive, and engaging with real-world examples and physics simulators that bring concepts to life. From mechanics to thermodynamics, every topic is taught with clarity, problem-solving strategies, and conceptual depth.',
       startDate: 'Last week of May 2025',
       endDate: 'December 2025',
@@ -87,7 +88,7 @@ export default function Courses() {
     },
     {
       name: '12th Topics - Live Online Classes',
-      cost: 29,
+      cost: 69999,
       description: 'This course is designed for JEE & NEET aspirants looking to master 12th-grade physics with a fun, creative, and application-based approach. Using physics simulators, we break down complex topics like electromagnetism, optics, and modern physics into easy-to-grasp visual explanations.',
       startDate: 'April 2025',
       endDate: 'September 2025',
@@ -128,7 +129,7 @@ export default function Courses() {
     },
     {
       name: '11th Topics - Recorded Classes',
-      cost: 39,
+      cost: 14999,
       description: 'Prefer self-paced learning? This course includes high-quality recorded lectures covering all 11th-grade physics topics with interactive animations and physics simulations to simplify complex ideas. Learn whenever, wherever, at your own speed!',
       startDate: 'Immediate Access',
       endDate: 'Lifetime Access',
@@ -168,7 +169,7 @@ export default function Courses() {
     },
     {
       name: '12th Topics - Recorded Classes',
-      cost: 49,
+      cost: 16999,
       description: 'Designed for students who want to prepare at their own pace, this course offers in-depth recorded lessons covering all 12th-grade physics topics with engaging physics simulations and step-by-step problem-solving methods. Perfect for revision and last-minute prep!',
       startDate: 'Immediate Access',
       endDate: 'Lifetime Access',
@@ -204,7 +205,7 @@ export default function Courses() {
     },
     {
       name: '12th Topics Advanced - Recorded Classes',
-      cost: 49,
+      cost: 25999,
       description: 'Designed for students who want to prepare at their own pace, this course offers in-depth recorded lessons covering all 12th-grade physics topics with engaging physics simulations and step-by-step problem-solving methods. Perfect for revision and last-minute prep!',
       startDate: 'Immediate Access',
       endDate: 'Lifetime Access',
@@ -245,7 +246,7 @@ export default function Courses() {
       startDate: 'Coming Soon',
       endDate: 'Coming Soon',
       benefits: [], // Empty benefits array as no details are provided
-      image: '', // Example image URL
+      image: jeeAdvanced, // Example image URL
     },
     {
       name: 'JEE math ( coming soon )',
@@ -254,7 +255,7 @@ export default function Courses() {
       startDate: 'Coming Soon',
       endDate: 'Coming Soon',
       benefits: [], // Empty benefits array as no details are provided
-      image: '', // Example image URL
+      image: comingSoon, // Example image URL
     },
     {
       name: 'JEE chem ( coming soon )',
@@ -263,7 +264,7 @@ export default function Courses() {
       startDate: 'Coming Soon',
       endDate: 'Coming Soon',
       benefits: [], // Empty benefits array as no details are provided
-      image: '', // Example image URL
+      image: comingSoon, // Example image URL
     },
   ];
 
@@ -330,155 +331,244 @@ export default function Courses() {
   }, []);
 
   return (
-    <section id="courses" className="courses mb-10 mt-24 scroll-mt-16 lg:mt-48">
-      <PageHeading h2="Our Courses" h1="Learn Physics with Simulators & Fun!" />
+    <section id="courses" className="bg-gray-50 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <PageHeading h2="Our Courses" h1="Learn Physics with Simulators & Fun!" />
 
-      <div className="course-container">
-        <h2 className="border-b-2 border-neutral pb-3 text-lg lg:text-xl">Popular Courses</h2>
-        <div className="course-cards-container mb-12 mt-8 grid gap-8 sm:grid-cols-2 md:my-14 lg:grid-cols-3">
-          {courses.map((course, index) => (
-            <CourseCard
-              key={index}
-              name={course.name}
-              cost={course.cost}
-              description={course.description}
-              startDate={course.startDate}
-              endDate={course.endDate}
-              image={course.image}
-              onEnrollClick={() => handleEnrollClick(course)}
-              isComingSoon={course.startDate === 'Coming Soon'}
-            />
-          ))}
+        <div className="mt-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Popular Courses</h2>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {courses.map((course, index) => (
+              <div 
+                key={index} 
+                className={`bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl ${
+                  course.startDate === 'Coming Soon' ? 'opacity-80' : ''
+                }`}
+              >
+                <div className="h-full flex flex-col">
+                  {/* Course Image */}
+                  <div className="relative aspect-square w-full overflow-hidden bg-gray-100">
+                    {course.image ? (
+                      <img 
+                        src={course.image} 
+                        alt={course.name} 
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-r from-blue-100 to-purple-100 flex items-center justify-center">
+                        <span className="text-gray-500 text-lg">Image Coming Soon</span>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Course Content */}
+                  <div className="p-6 flex-grow flex flex-col">
+                    <div className="flex-grow">
+                      <h3 className="text-xl font-bold text-gray-800 mb-2 line-clamp-2">
+                        {course.name}
+                      </h3>
+                      {course.description && (
+                        <p className="text-gray-600 mb-4 line-clamp-3">
+                          {course.description}
+                        </p>
+                      )}
+                      <div className="mb-4">
+                        <div className="flex items-center text-sm text-gray-500 mb-1">
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                          {course.startDate} - {course.endDate}
+                        </div>
+                        <div className="text-lg font-bold text-blue-600 mt-2">
+                          ₹{course.cost}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Benefits List */}
+                    {course.benefits && course.benefits.length > 0 && (
+                      <div className="mb-4">
+                        <h4 className="text-sm font-semibold text-gray-700 mb-1">Key Benefits:</h4>
+                        <ul className="text-xs text-gray-600 space-y-1">
+                          {course.benefits.slice(0, 3).map((benefit, i) => (
+                            <li key={i} className="flex items-start">
+                              <svg className="w-3 h-3 text-green-500 mt-0.5 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                              </svg>
+                              <span>{benefit}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    
+                    {/* Enroll Button */}
+                    <button
+                      onClick={() => course.startDate !== 'Coming Soon' && handleEnrollClick(course)}
+                      disabled={course.startDate === 'Coming Soon'}
+                      className={`mt-auto w-full py-2 px-4 rounded-lg font-medium ${
+                        course.startDate === 'Coming Soon'
+                          ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                          : 'bg-blue-600 text-white hover:bg-blue-700 transition-colors'
+                      }`}
+                    >
+                      {course.startDate === 'Coming Soon' ? 'Coming Soon' : 'Enroll Now'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Enrollment Modal */}
       {isModalOpen && selectedCourse && (
-        <div className="modal-overlay">
-          <div className="modal-container">
-            <button className="close-modal-top-right" onClick={handleCloseModal}>
-              ×
-            </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <button 
+                onClick={handleCloseModal}
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
 
-            {/* For Recorded Courses */}
-            {selectedCourse.name.includes('Recorded Classes') ? (
-              <div className="modal-recorded-container">
-                {/* Left Column: Payment Form */}
-                <div className="modal-left">
-                  <h3>Enroll for {selectedCourse.name}</h3>
-                  <form className="enroll-form">
-                    <label>
-                      Name:
-                      <input
-                        type="text"
-                        name="name"
-                        value={userDetails.name}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </label>
-                    <label>
-                      Email:
-                      <input
-                        type="email"
-                        name="email"
-                        value={userDetails.email}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </label>
-                    <label>
-                      Phone:
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={userDetails.phone}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </label>
-                    <button
-                      type="button"
-                      className="pay-button"
-                      onClick={handleRazorpayPayment}
-                    >
-                      Pay ₹{selectedCourse.cost}
-                    </button>
-                  </form>
-                </div>
+              {/* For Recorded Courses */}
+              {selectedCourse.name.includes('Recorded Classes') ? (
+                <div className="grid md:grid-cols-2 gap-8">
+                  {/* Left Column: Payment Form */}
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-800 mb-6">Enroll for {selectedCourse.name}</h3>
+                    <form className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Name:</label>
+                        <input
+                          type="text"
+                          name="name"
+                          value={userDetails.name}
+                          onChange={handleInputChange}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Email:</label>
+                        <input
+                          type="email"
+                          name="email"
+                          value={userDetails.email}
+                          onChange={handleInputChange}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Phone:</label>
+                        <input
+                          type="tel"
+                          name="phone"
+                          value={userDetails.phone}
+                          onChange={handleInputChange}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          required
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors font-medium"
+                        onClick={handleRazorpayPayment}
+                      >
+                        Pay ₹{selectedCourse.cost}
+                      </button>
+                    </form>
+                  </div>
 
-                {/* Right Column: Course Details */}
-                <div className="modal-right">
-                  <h3>{selectedCourse.modalContent?.header}</h3>
-                  <p>{selectedCourse.modalContent?.intro}</p>
+                  {/* Right Column: Course Details */}
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-800 mb-4">{selectedCourse.modalContent?.header}</h3>
+                    <p className="text-gray-600 mb-6 whitespace-pre-line">{selectedCourse.modalContent?.intro}</p>
 
-                  <div className="course-details">
-                    <h4>Topics Covered:</h4>
-                    <ul>
-                      {selectedCourse.modalContent?.topics.map((topic, index) => (
-                        <li key={index}>• {topic}</li>
-                      ))}
-                    </ul>
+                    <div className="space-y-6">
+                      <div>
+                        <h4 className="text-lg font-semibold text-gray-800 mb-2">Topics Covered:</h4>
+                        <ul className="list-disc list-inside space-y-1 text-gray-600">
+                          {selectedCourse.modalContent?.topics.map((topic, index) => (
+                            <li key={index}>{topic}</li>
+                          ))}
+                        </ul>
+                      </div>
 
-                    <h4>What’s in Store for You:</h4>
-                    <ul>
-                      {selectedCourse.modalContent?.features.map((feature, index) => (
-                        <li key={index}>• {feature}</li>
-                      ))}
-                    </ul>
+                      <div>
+                        <h4 className="text-lg font-semibold text-gray-800 mb-2">What's in Store for You:</h4>
+                        <ul className="list-disc list-inside space-y-1 text-gray-600">
+                          {selectedCourse.modalContent?.features.map((feature, index) => (
+                            <li key={index}>{feature}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ) : (
-              // For Live Classes
-              <div className="course-modal-full">
-                <h3 className="text-2xl font-bold text-blue-600 mb-4">{selectedCourse.modalContent?.header}</h3>
-                <p className="text-gray-700 mb-6">{selectedCourse.modalContent?.intro}</p>
+              ) : (
+                // For Live Classes
+                <div className="space-y-6">
+                  <h3 className="text-2xl font-bold text-blue-600 mb-4">{selectedCourse.modalContent?.header}</h3>
+                  <p className="text-gray-700 mb-6 whitespace-pre-line">{selectedCourse.modalContent?.intro}</p>
 
-                <div className="course-details">
-                  <h4 className="text-xl font-semibold text-blue-600 mb-3">What You’ll Explore:</h4>
-                  <ul className="list-disc list-inside mb-6">
-                    {selectedCourse.modalContent?.topics.map((topic, index) => (
-                      <li key={index} className="text-gray-700 mb-2">• {topic}</li>
-                    ))}
-                  </ul>
+                  <div className="space-y-6">
+                    <div>
+                      <h4 className="text-xl font-semibold text-blue-600 mb-3">What You'll Explore:</h4>
+                      <ul className="list-disc list-inside space-y-2 text-gray-700">
+                        {selectedCourse.modalContent?.topics.map((topic, index) => (
+                          <li key={index}>{topic}</li>
+                        ))}
+                      </ul>
+                    </div>
 
-                  <h4 className="text-xl font-semibold text-blue-600 mb-3">Why You’ll Love It:</h4>
-                  <ul className="list-disc list-inside mb-6">
-                    {selectedCourse.modalContent?.features.map((feature, index) => (
-                      <li key={index} className="text-gray-700 mb-2">• {feature}</li>
-                    ))}
-                  </ul>
+                    <div>
+                      <h4 className="text-xl font-semibold text-blue-600 mb-3">Why You'll Love It:</h4>
+                      <ul className="list-disc list-inside space-y-2 text-gray-700">
+                        {selectedCourse.modalContent?.features.map((feature, index) => (
+                          <li key={index}>{feature}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <p className="text-gray-800 text-center my-6 font-medium">
+                    Please fill the form below, and our staff will get back to you.
+                  </p>
+
+                  <div className="flex justify-center">
+                    <a
+                      href="https://tally.so/r/wzLBNa"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-blue-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-colors w-full max-w-md text-center"
+                    >
+                      Fill the Form
+                    </a>
+                  </div>
                 </div>
-
-                {/* Added text above the button */}
-                <p className="text-gray-800 text-center mb-4 font-medium">
-                  Please fill the form below, and our staff will get back to you.
-                </p>
-
-                <div className="flex justify-center">
-                  <a
-                    href="https://tally.so/r/wzLBNa"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-blue-600 text-white px-8 py-2 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-colors w-full max-w-md text-center"
-                  >
-                    Fill the Form
-                  </a>
-                </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       )}
 
       {/* Payment Success Modal */}
       {paymentSuccess && (
-        <div className="modal-overlay">
-          <div className="modal-container">
-            <h2>Thank you for enrolling in the course!</h2>
-            <p>Your payment was successful. You will receive an email confirmation shortly.</p>
-            <button className="close-modal" onClick={handleCloseModal}>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-8 max-w-md w-full">
+            <h2 className="text-2xl font-bold text-green-600 mb-4">Thank you for enrolling in the course!</h2>
+            <p className="text-gray-700 mb-6">Your payment was successful. You will receive an email confirmation shortly.</p>
+            <button 
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors font-medium"
+              onClick={handleCloseModal}
+            >
               Close
             </button>
           </div>
