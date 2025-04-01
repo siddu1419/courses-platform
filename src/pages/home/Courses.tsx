@@ -6,6 +6,7 @@ import eleventhRec from '../../assets/11-Recorded.jpeg';
 import twelveRec from '../../assets/12-Recorded.jpeg';
 import jeeAdvanced from '../../assets/JEE-Advanced-Live.jpeg';
 import comingSoon from '../../assets/Coming-Soon.jpeg';
+import eleven12Rec from '../../assets/11-12-Recorded.jpeg';
 
 declare global {
   interface Window {
@@ -221,7 +222,7 @@ export default function Courses() {
         'Self-assessment quizzes & practice problems',
         'Printable formula sheets & concept summaries',
       ],
-      image: twelveRec,
+      image: eleven12Rec,
       paymentLink: 'https://rzp.io/rzp/HmfFdtt',
       modalContent: {
         header: 'ExamTrakker Recorded Sessions for 11th & 12th Standard Physics',
@@ -250,7 +251,7 @@ export default function Courses() {
     },
     {
       name: 'JEE math ( coming soon )',
-      cost: 59,
+      cost: 0,
       description: '', // Empty description as per requirement
       startDate: 'Coming Soon',
       endDate: 'Coming Soon',
@@ -259,7 +260,7 @@ export default function Courses() {
     },
     {
       name: 'JEE chem ( coming soon )',
-      cost: 59,
+      cost: 0,
       description: '', // Empty description as per requirement
       startDate: 'Coming Soon',
       endDate: 'Coming Soon',
@@ -388,10 +389,10 @@ export default function Courses() {
                           <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                           </svg>
-                          {course.startDate} - {course.endDate}
+                          {course.name.toLowerCase().includes('crash') ? 'Completed' : `${course.startDate} - ${course.endDate}`}
                         </div>
                         <div className="text-lg font-bold text-blue-600 mt-2">
-                          ₹{course.cost.toLocaleString('en-IN')}
+                          {course.name.toLowerCase().includes('crash') ? '-' : (course.cost ? `₹${course.cost.toLocaleString('en-IN')}` : '-')}
                         </div>
                       </div>
                     </div>
@@ -453,16 +454,36 @@ export default function Courses() {
                       ) : (
                         /* Regular Single Button for non-Live courses */
                         <button
-                          onClick={() => course.startDate !== 'Coming Soon' && handleEnrollClick(course)}
-                          disabled={course.startDate === 'Coming Soon'}
-                          className={`w-full py-2 px-4 rounded-lg font-medium ${
-                            course.startDate === 'Coming Soon'
-                              ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
-                              : 'bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900 transition-all shadow-md'
-                          }`}
-                        >
-                          {course.startDate === 'Coming Soon' ? 'Coming Soon' : 'Enroll Now'}
-                        </button>
+                            onClick={() => course.startDate !== 'Coming Soon' && handleEnrollClick(course)}
+                            disabled={course.startDate === 'Coming Soon' || course.name.toLowerCase().includes('crash')}
+                            className={`w-full py-2 px-4 rounded-lg font-medium relative overflow-hidden group ${
+                              course.name.toLowerCase().includes('crash')
+                                ? 'bg-gradient-to-r from-gray-500 to-gray-700 text-white shadow-inner cursor-not-allowed'
+                                : course.startDate === 'Coming Soon'
+                                  ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                                  : 'bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900 transition-all shadow-md'
+                            }`}
+                          >
+                            {course.name.toLowerCase().includes('crash') ? (
+                              <>
+                                <span className="relative z-10 flex items-center justify-center gap-2">
+                                  <svg 
+                                    xmlns="http://www.w3.org/2000/svg" 
+                                    className="h-5 w-5 text-yellow-400" 
+                                    viewBox="0 0 20 20" 
+                                    fill="currentColor"
+                                  >
+                                    <path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z" />
+                                  </svg>
+                                  Sold Out
+                                </span>
+                                <span className="absolute inset-0 bg-gradient-to-r from-gray-600/20 to-gray-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-yellow-400 to-yellow-600"></span>
+                              </>
+                            ) : (
+                              course.startDate === 'Coming Soon' ? 'Coming Soon' : 'Enroll Now'
+                            )}
+                          </button>
                       )}
                     </div>
                   </div>
