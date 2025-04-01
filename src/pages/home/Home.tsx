@@ -6,12 +6,14 @@ import Testimonials from './Testimonials'
 import Contact from './Contact'
 import PrivacyNotice from './PrivacyNotice'
 import TeacherTribute from './TeacherTribute'
+import ChaturVsRancho from './ChaturVsRancho'
 
 export default function Home() {
   return (
     <>
       <Main />
       <About />
+      <ChaturVsRancho/>
       <Courses />
       <Testimonials />
       <Blog /> 
