@@ -217,7 +217,7 @@ export default function Main() {
 
               {/* Right Side - Form */}
               <div className="flex-1 p-10 lg:p-12">
-                <div className="flex h-full flex-col justify-between">
+                <div className="flex h-full flex-col">
                   <div>
                     <h3 className="mb-8 text-2xl font-bold text-gray-900">Register for Webinar</h3>
                     <form className="space-y-6">
