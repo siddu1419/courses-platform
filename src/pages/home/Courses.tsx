@@ -415,76 +415,76 @@ export default function Courses() {
                     )}
                     
                     {/* Enroll Button */}
-                    <div className="mt-auto space-y-2">
-                      {course.name.toLowerCase().includes('live') ? (
-                        <>
-                          {/* First Batch Button - Disabled */}
-                          <button
-                            disabled
-                            className="w-full py-2 px-4 rounded-lg font-medium bg-gray-200 text-gray-500 line-through cursor-not-allowed flex items-center justify-center"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-5 w-5 mr-2"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            1st Batch Sold Out
-                          </button>
-                          
-                          {/* Enroll Now Button */}
-                          <button
-                            onClick={() => handleEnrollClick(course)}
-                            disabled={course.startDate === 'Coming Soon'}
-                            className={`w-full py-2 px-4 rounded-lg font-medium ${
-                              course.startDate === 'Coming Soon'
-                                ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
-                                : 'bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900 transition-all shadow-md'
-                            }`}
-                          >
-                            Enroll Now
-                          </button>
-                        </>
-                      ) : (
-                        /* Regular Single Button for non-Live courses */
-                        <button
-                            onClick={() => course.startDate !== 'Coming Soon' && handleEnrollClick(course)}
-                            disabled={course.startDate === 'Coming Soon' || course.name.toLowerCase().includes('crash')}
-                            className={`w-full py-2 px-4 rounded-lg font-medium relative overflow-hidden group ${
-                              course.name.toLowerCase().includes('crash')
-                                ? 'bg-gradient-to-r from-gray-500 to-gray-700 text-white shadow-inner cursor-not-allowed'
-                                : course.startDate === 'Coming Soon'
-                                  ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
-                                  : 'bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900 transition-all shadow-md'
-                            }`}
-                          >
-                            {course.name.toLowerCase().includes('crash') ? (
-                              <>
-                                <span className="relative z-10 flex items-center justify-center gap-2">
-                                  <svg 
-                                    xmlns="http://www.w3.org/2000/svg" 
-                                    className="h-5 w-5 text-yellow-400" 
-                                    viewBox="0 0 20 20" 
-                                    fill="currentColor"
-                                  >
-                                    <path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z" />
-                                  </svg>
-                                  Sold Out
-                                </span>
-                                <span className="absolute inset-0 bg-gradient-to-r from-gray-600/20 to-gray-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-yellow-400 to-yellow-600"></span>
-                              </>
-                            ) : (
-                              course.startDate === 'Coming Soon' ? 'Coming Soon' : 'Enroll Now'
-                            )}
-                          </button>
-                      )}
+<div className="mt-auto space-y-2">
+  {course.name.toLowerCase().includes('live') ? (
+    <>
+      {/* First Batch Button - Disabled */}
+      <button
+        disabled
+        className="w-full py-2 px-4 rounded-lg font-medium bg-gray-200 text-gray-500 line-through cursor-not-allowed flex items-center justify-center"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5 mr-2"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fillRule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+        1st Batch Sold Out
+      </button>
+      
+      {/* 2nd Batch Apply Now Button */}
+      <button
+        onClick={() => handleEnrollClick(course)}
+        disabled={course.startDate === 'Coming Soon'}
+        className={`w-full py-2 px-4 rounded-lg font-medium ${
+          course.startDate === 'Coming Soon'
+            ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+            : 'bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900 transition-all shadow-md'
+        }`}
+      >
+        2nd Batch: Apply Now
+      </button>
+    </>
+  ) : (
+    /* Regular Single Button for non-Live courses */
+    <button
+      onClick={() => course.startDate !== 'Coming Soon' && handleEnrollClick(course)}
+      disabled={course.startDate === 'Coming Soon' || course.name.toLowerCase().includes('crash')}
+      className={`w-full py-2 px-4 rounded-lg font-medium relative overflow-hidden group ${
+        course.name.toLowerCase().includes('crash')
+          ? 'bg-gradient-to-r from-gray-500 to-gray-700 text-white shadow-inner cursor-not-allowed'
+          : course.startDate === 'Coming Soon'
+            ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+            : 'bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900 transition-all shadow-md'
+      }`}
+    >
+      {course.name.toLowerCase().includes('crash') ? (
+        <>
+          <span className="relative z-10 flex items-center justify-center gap-2">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-5 w-5 text-yellow-400" 
+              viewBox="0 0 20 20" 
+              fill="currentColor"
+            >
+              <path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z" />
+            </svg>
+            Sold Out
+          </span>
+          <span className="absolute inset-0 bg-gradient-to-r from-gray-600/20 to-gray-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+          <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-yellow-400 to-yellow-600"></span>
+        </>
+      ) : (
+        course.startDate === 'Coming Soon' ? 'Coming Soon' : 'Enroll Now'
+      )}
+    </button>
+  )}
                     </div>
                   </div>
                 </div>
@@ -497,15 +497,16 @@ export default function Courses() {
       {/* Enrollment Modal */}
       {isModalOpen && selectedCourse && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-xl">
+          <div className="bg-white rounded-lg max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-xl relative"> {/* Added relative here */}
             <button 
               onClick={handleCloseModal}
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10"
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10 bg-white rounded-full p-2 shadow-md" // Added some styling
             >
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
+
 
             <div className="grid md:grid-cols-2 gap-0">
               {/* Left Column: Course Details */}
@@ -583,25 +584,25 @@ export default function Courses() {
                     />
                   </div>
                   <div className="pt-4">
-  {selectedCourse.name.toLowerCase().includes('live') ? (
-    <a
-      href="https://tally.so/r/wzLBNa"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="block w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-md text-center"
-    >
-      Apply Now
-    </a>
-  ) : (
-    <button
-      type="button"
-      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-md"
-      onClick={handleRazorpayPayment}
-    >
-      Pay ₹{selectedCourse.cost.toLocaleString('en-IN')}
-    </button>
-  )}
-</div>
+        {selectedCourse.name.toLowerCase().includes('live') ? (
+          <a
+            href="https://tally.so/r/wzLBNa"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-md text-center"
+          >
+            Apply Now
+          </a>
+        ) : (
+          <button
+            type="button"
+            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-md"
+            onClick={handleRazorpayPayment}
+          >
+            Pay ₹{selectedCourse.cost.toLocaleString('en-IN')}
+          </button>
+        )}
+                  </div>
                 </form>
               </div>
             </div>

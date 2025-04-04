@@ -134,9 +134,10 @@ export default function Main() {
       </section>
 
       {/* User Details Modal */}
-      {showUserDetailsModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-          <div className="relative flex max-h-[90vh] w-full max-w-5xl overflow-hidden rounded-3xl bg-white shadow-2xl">
+        {showUserDetailsModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+            {/* Changed overflow-hidden to overflow-auto and added max-h-[90vh] */}
+            <div className="relative max-h-[90vh] w-full max-w-5xl overflow-auto rounded-3xl bg-white shadow-2xl">
             <button 
               onClick={() => setShowUserDetailsModal(false)}
               className="absolute right-6 top-6 z-10 rounded-full bg-gray-100 p-2 text-gray-500 transition-all hover:bg-gray-200 hover:text-gray-700"

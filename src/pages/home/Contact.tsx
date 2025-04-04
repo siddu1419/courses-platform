@@ -84,7 +84,7 @@ export default function Contact() {
               </svg>
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-3">Call Us</h3>
-            <p className="text-gray-600 text-lg">+91 7036667776</p>
+            {/* <p className="text-gray-600 text-lg">+91 7036667776</p> */}
           </div>
 
           {/* Email Option - Now with proper text wrapping */}
