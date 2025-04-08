@@ -8,8 +8,9 @@ export default function TeacherThanks() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
-      className="mt-16 mb-8 text-center"
+      className="mt-16 mb-8 text-center space-y-6"
     >
+      {/* Gratitude message */}
       <div className="inline-flex items-center gap-2 px-6 py-4 bg-white/50 rounded-full border border-gray-200 shadow-sm">
         <motion.div
           animate={{ scale: [1, 1.1, 1] }}
@@ -20,6 +21,11 @@ export default function TeacherThanks() {
         <p className="text-gray-600">
           Made with gratitude for my teacher who made physics come alive
         </p>
+      </div>
+
+      {/* Copyright notice */}
+      <div className="text-sm text-gray-500 font-medium">
+        © COPYRIGHT 2025 EXAMTRAKKER EDUTECH PRIVATE LIMITED - ALL RIGHTS RESERVED
       </div>
     </motion.div>
   );

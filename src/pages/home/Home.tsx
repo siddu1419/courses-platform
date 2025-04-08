@@ -1,6 +1,7 @@
 import Courses from './Courses'
 import Main from './Main'
 import About from './About'
+import AboutExamTrakker from './AboutExamTrakker'
 import Blog from './Blog'
 import Testimonials from './Testimonials'
 import Contact from './Contact'
@@ -13,6 +14,7 @@ export default function Home() {
     <>
       <Main />
       <About />
+      <AboutExamTrakker/>
       <ChaturVsRancho/>
       <Courses />
       <Testimonials />
