@@ -8,11 +8,13 @@ import Contact from './Contact'
 import PrivacyNotice from './PrivacyNotice'
 import TeacherTribute from './TeacherTribute'
 import ChaturVsRancho from './ChaturVsRancho'
+import WebinarPromo from './WebinarPromo'
 
 export default function Home() {
   return (
     <>
       <Main />
+      <WebinarPromo />
       <About />
       <AboutExamTrakker/>
       <ChaturVsRancho/>
