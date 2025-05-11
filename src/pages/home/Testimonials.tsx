@@ -1,4 +1,7 @@
 import PageHeading from '../../components/PageHeading';
+import { useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 // Star Icon Components
 function StarIconFilled({ className }: { className?: string }) {
@@ -33,7 +36,10 @@ type TestimonialProps = {
 
 function TestimonialCard({ name, review, rating }: TestimonialProps) {
   return (
-    <article className="relative bg-white rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+    <motion.article 
+      whileHover={{ y: -5 }}
+      className="relative bg-white rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 h-full flex flex-col min-w-full sm:min-w-[calc(33.333%-1rem)]"
+    >
       <div className="p-6 flex-grow">
         <div className="mb-4">
           <QuoteIcon className="w-8 h-8 text-orange-500 opacity-20" />
@@ -66,12 +72,14 @@ function TestimonialCard({ name, review, rating }: TestimonialProps) {
         </div>
       </div>
       
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 to-blue-600"></div>
-    </article>
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 to-blue-600 rounded-b-2xl"></div>
+    </motion.article>
   );
 }
 
 export default function Testimonials() {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const testimonials = [
     {
       name: 'Nivrithi',
@@ -105,8 +113,26 @@ export default function Testimonials() {
     },
   ];
 
+  const scrollToIndex = (index: number) => {
+    if (!scrollContainerRef.current) return;
+    
+    const container = scrollContainerRef.current;
+    const cardWidth = container.children[0]?.clientWidth || 0;
+    const scrollPosition = index * cardWidth;
+    
+    container.scrollTo({
+      left: scrollPosition,
+      behavior: 'smooth'
+    });
+    
+    setCurrentIndex(index);
+  };
+
+  const canScrollLeft = currentIndex > 0;
+  const canScrollRight = currentIndex < testimonials.length - 1;
+
   return (
-    <section id="testimonials" className="py-16 bg-white">
+    <section id="testimonials" className="py-16 bg-white relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="text-center mb-12">
           <PageHeading 
@@ -119,10 +145,44 @@ export default function Testimonials() {
           Don't just take our word for it. Hear from students who've experienced our unique approach to learning physics.
         </p>
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard key={index} {...testimonial} />
-          ))}
+        <div className="relative">
+          {/* Navigation buttons */}
+          <button 
+            onClick={() => scrollToIndex(currentIndex - 1)}
+            disabled={!canScrollLeft}
+            className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 z-10 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-gray-50 transition-colors ${!canScrollLeft ? 'opacity-50 cursor-not-allowed' : ''}`}
+            aria-label="Previous testimonials"
+          >
+            <ChevronLeft className="w-6 h-6 text-gray-700" />
+          </button>
+          
+          <button 
+            onClick={() => scrollToIndex(currentIndex + 1)}
+            disabled={!canScrollRight}
+            className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 z-10 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-gray-50 transition-colors ${!canScrollRight ? 'opacity-50 cursor-not-allowed' : ''}`}
+            aria-label="Next testimonials"
+          >
+            <ChevronRight className="w-6 h-6 text-gray-700" />
+          </button>
+
+          {/* Testimonials container */}
+          <div 
+            ref={scrollContainerRef}
+            className="flex overflow-x-hidden scroll-smooth snap-x snap-mandatory gap-6"
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
+          >
+            {testimonials.map((testimonial, index) => (
+              <div 
+                key={index} 
+                className="flex-shrink-0 w-full sm:w-1/3 snap-center"
+              >
+                <TestimonialCard {...testimonial} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

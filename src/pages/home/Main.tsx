@@ -74,12 +74,12 @@ export default function Main() {
           <h1 className="text-4xl font-bold leading-tight text-gray-900 lg:text-5xl lg:leading-snug">
             <span className="relative inline-block">
               <span className="relative z-10 bg-gradient-to-r from-blue-600 via-purple-500 to-orange-500 bg-clip-text text-transparent">
-                Experience Physics
+                Cracking JEE/NEET Physics
               </span>
               <span className="absolute bottom-0 left-0 h-3 w-full bg-gradient-to-r from-blue-100 to-orange-100 opacity-80 -z-0 transform -rotate-1 scale-x-105"></span>
             </span>
             <br />
-            <span className="text-gray-800">in a Whole New Way!</span>
+            <span className="text-gray-800">with logic, not fear.</span>
           </h1>
           <div className="mt-4 h-1.5 w-32 rounded-full bg-gradient-to-r from-blue-500 via-purple-400 to-orange-400 shadow-sm"></div>
         </div>
