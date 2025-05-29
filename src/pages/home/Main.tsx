@@ -25,6 +25,9 @@ export default function Main() {
   const handleWebinarPayment = () => {
     window.open('https://rzp.io/rzp/kBUJZQoJ', '_blank');
   };
+  const handleTest = () => {
+    window.open('https://tally.so/r/w8MlvP', '_blank');
+  };
 
   const scrollToCourses = () => {
     const coursesSection = document.getElementById('courses');
@@ -100,7 +103,7 @@ export default function Main() {
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
               </svg>
-              Attend Webinar ₹99
+              Attend Webinar for FREE
             </span>
             <span className="absolute inset-0 bg-gradient-to-r from-blue-700 to-blue-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
           </button>
@@ -274,6 +277,37 @@ export default function Main() {
                     </span>
                     <span className="absolute inset-0 bg-gradient-to-r from-blue-700 to-blue-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
                   </button>
+
+                  {/* Divider with "or" text */}
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="bg-white px-4 text-gray-500">or</span>
+            </div>
+          </div>
+
+          {/* Free Registration Button (Secondary but highlighted) */}
+          <div className="relative">
+            {/* Ribbon-like highlight */}
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 transform rounded-full bg-orange-500 px-3 py-1 text-xs font-bold text-white shadow-sm">
+              FREE
+            </div>
+            <button
+              onClick={handleTest}
+              className="w-full rounded-xl border-2 border-orange-400 bg-white px-6 py-4 font-medium text-gray-800 transition-all duration-300 hover:bg-orange-50 hover:shadow-md focus:ring-2 focus:ring-orange-200 focus:ring-offset-2"
+            >
+              <span className="flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-orange-500" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                Clear test and attend for free
+              </span>
+            </button>
+          </div>
+
+
                 </div>
               </div>
             </div>

@@ -100,14 +100,20 @@ export default function Contact() {
 
           {/* Live Chat Option */}
           <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 text-center flex flex-col items-center h-full transition-transform hover:scale-[1.02]">
-            <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-5">
-              <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">Live Chat</h3>
-            <p className="text-gray-600 text-lg">Available 24/7</p>
-          </div>
+        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-5">
+          <svg
+            className="w-8 h-8 text-green-600"
+            viewBox="0 0 32 32"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M16.003 3C9.375 3 3.997 8.38 3.997 15.003a11.9 11.9 0 001.637 6.027L3 29l8.148-2.602a11.96 11.96 0 004.855 1.07h.003c6.628 0 12.006-5.38 12.006-12.004C28.01 8.38 22.63 3 16.003 3zm0 21.82a9.95 9.95 0 01-5.038-1.377l-.36-.21-4.84 1.547 1.562-4.71-.23-.375a9.945 9.945 0 01-1.542-5.193c0-5.516 4.486-10.002 10.01-10.002 5.525 0 10.01 4.486 10.01 10.002s-4.485 10.018-10.01 10.018zm5.547-7.56c-.305-.15-1.805-.89-2.086-.99-.28-.1-.485-.15-.69.15s-.79.99-.972 1.195c-.18.205-.36.23-.665.08-.305-.15-1.29-.475-2.457-1.513-.906-.805-1.52-1.795-1.7-2.1-.18-.305-.02-.47.135-.62.14-.14.305-.36.457-.54.15-.18.2-.305.305-.51.1-.205.05-.38-.025-.53-.075-.15-.69-1.665-.95-2.28-.25-.6-.5-.52-.69-.53l-.58-.01c-.205 0-.53.075-.807.38-.28.305-1.06 1.03-1.06 2.51s1.085 2.91 1.235 3.115c.15.205 2.14 3.27 5.185 4.585.725.31 1.29.495 1.73.63.725.23 1.385.2 1.905.12.58-.085 1.805-.74 2.06-1.455.255-.715.255-1.33.18-1.455-.075-.13-.28-.205-.585-.355z"/>
+          </svg>
+        </div>
+        <h3 className="text-xl font-semibold text-gray-900 mb-3">WhatsApp</h3>
+        <p className="text-gray-600 text-lg">Available 24/7</p>
+      </div>
+
         </div>
       </div>
     </section>

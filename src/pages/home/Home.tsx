@@ -14,13 +14,13 @@ export default function Home() {
   return (
     <>
       <Main />
-      <WebinarPromo />
+      {/* <WebinarPromo /> */}
       <About />
       <AboutExamTrakker/>
       <ChaturVsRancho/>
       <Courses />
       <Testimonials />
-      <Blog /> 
+      {/* <Blog />  */}
       <Contact /> 
       <PrivacyNotice/>
       <TeacherTribute/>
