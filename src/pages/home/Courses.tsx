@@ -16,7 +16,7 @@ declare global {
 
 interface Course {
   name: string;
-  cost: number;
+  cost: number; // Should be a number. If a course is free, use 0.
   description: string;
   startDate: string;
   endDate: string;
@@ -42,6 +42,8 @@ export default function Courses() {
   });
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
+  // Assuming 'Crash course for JEE advanced' cost is a number, e.g., 34 or 0.
+  // If cost: '' was intended, it needs to be handled before Razorpay call.
   const courses: Course[] = [
     {
       name: '11th Topics - Live Online Classes',
@@ -242,34 +244,37 @@ export default function Courses() {
     },
     {
       name: 'Crash course for JEE advanced',
-      cost: 34,
-      description: '', // Empty description as per requirement
+      cost: 0, // Corrected from '' to a number, e.g., 34 for ₹34. Adjust if it's free (0) or other value.
+      description: '',
       startDate: 'Coming Soon',
       endDate: 'Coming Soon',
-      benefits: [], // Empty benefits array as no details are provided
-      image: jeeAdvanced, // Example image URL
+      benefits: [],
+      image: jeeAdvanced,
     },
     {
       name: 'JEE math ( coming soon )',
       cost: 0,
-      description: '', // Empty description as per requirement
+      description: '',
       startDate: 'Coming Soon',
       endDate: 'Coming Soon',
-      benefits: [], // Empty benefits array as no details are provided
-      image: comingSoon, // Example image URL
+      benefits: [],
+      image: comingSoon,
     },
     {
       name: 'JEE chem ( coming soon )',
       cost: 0,
-      description: '', // Empty description as per requirement
+      description: '',
       startDate: 'Coming Soon',
       endDate: 'Coming Soon',
-      benefits: [], // Empty benefits array as no details are provided
-      image: comingSoon, // Example image URL
+      benefits: [],
+      image: comingSoon,
     },
   ];
 
   const handleEnrollClick = (course: Course) => {
+    // Reset userDetails when a new course is selected for the modal
+    // to ensure old data isn't prefilled if user switches between courses before interacting with form
+    setUserDetails({ name: '', email: '', phone: '' });
     setSelectedCourse(course);
     setIsModalOpen(true);
   };
@@ -277,6 +282,7 @@ export default function Courses() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setPaymentSuccess(false);
+    setUserDetails({ name: '', email: '', phone: '' }); // Clear details when modal is closed
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -287,25 +293,40 @@ export default function Courses() {
   const handleRazorpayPayment = async () => {
     if (!selectedCourse) return;
 
-    // For courses with direct payment links
-    if (selectedCourse.paymentLink) {
-      window.open(selectedCourse.paymentLink, '_blank');
-      return;
+    // Basic validation for required fields before proceeding to Razorpay
+    if (!selectedCourse.name.toLowerCase().includes('live')) { // Only for payment flows
+        if (!userDetails.name || !userDetails.email || !userDetails.phone) {
+            alert('Please fill in your Name, Email, and Phone number to proceed.');
+            return;
+        }
+        // Simple email validation regex (basic)
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(userDetails.email)) {
+            alert('Please enter a valid email address.');
+            return;
+        }
+        // Simple phone validation (e.g., 10 digits - basic, adjust as needed for international numbers)
+        const phoneRegex = /^\d{10}$/;
+        if (!phoneRegex.test(userDetails.phone)) {
+            alert('Please enter a valid 10-digit phone number.');
+            return;
+        }
     }
 
-    // For other courses using Razorpay integration
+
     const options = {
-      key: 'rzp_live_mXAqSwjm9lGTyn', // Replace with your Razorpay Key ID
-      amount: selectedCourse.cost * 100, // Amount in paise (1 INR = 100 paise)
+      key: 'rzp_live_jpSKaRq0R6Fixj', 
+      amount: selectedCourse.cost * 100, 
       currency: 'INR',
       name: selectedCourse.name,
-      description: 'Enroll for Course',
-      image: 'https://your-logo-url.com/logo.png', // Replace with your logo URL
+      description: `Enrollment for ${selectedCourse.name}`,
+      image: 'https://your-logo-url.com/logo.png', // Replace with your actual logo URL
       handler: (response: any) => {
         if (response.razorpay_payment_id) {
-          alert('Payment Successful!');
+          alert('Payment Successful!'); 
           setPaymentSuccess(true);
-          setIsModalOpen(false);
+        } else {
+          alert('Payment verification failed. Please contact support.');
         }
       },
       prefill: {
@@ -315,15 +336,32 @@ export default function Courses() {
       },
       theme: { color: '#F37254' },
       modal: {
-        ondismiss: () => alert('Payment was not completed. Please try again.'),
+        ondismiss: () => {
+          alert('Payment was not completed. Please try again or contact support if you faced an issue.');
+        },
       },
+      notes: {
+        course_name: selectedCourse.name,
+      },
+      timeout: 300, 
+      retry: { 
+        enabled: false, 
+      }
     };
 
     if (window.Razorpay) {
-      const razorpayInstance = new window.Razorpay(options);
-      razorpayInstance.open();
+      try {
+        const razorpayInstance = new window.Razorpay(options);
+        razorpayInstance.on('payment.failed', function (response: any) {
+            alert(`Payment Failed: ${response.error.description}`);
+        });
+        razorpayInstance.open();
+      } catch (error) {
+        console.error("Razorpay initialization error:", error);
+        alert('Could not initialize payment. Please try again.');
+      }
     } else {
-      alert('Razorpay SDK not loaded');
+      alert('Razorpay SDK not loaded. Please check your internet connection and try again.');
     }
   };
 
@@ -332,6 +370,13 @@ export default function Courses() {
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
     script.async = true;
     document.body.appendChild(script);
+
+    script.onload = () => {
+      // console.log("Razorpay SDK loaded.");
+    };
+    script.onerror = () => {
+      console.error("Failed to load Razorpay SDK.");
+    };
 
     return () => {
       document.body.removeChild(script);
@@ -347,23 +392,31 @@ export default function Courses() {
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Popular Courses</h2>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {courses.map((course, index) => (
-              <div 
-                key={index} 
+              <div  
+                key={index}  
                 className={`bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl ${
                   course.startDate === 'Coming Soon' ? 'opacity-80' : ''
                 }`}
               >
                 <div className="h-full flex flex-col">
-                  {/* Course Image */}
                   <div className="relative aspect-square w-full overflow-hidden bg-gray-100">
                     {course.image ? (
-                      <img 
-                        src={course.image} 
-                        alt={course.name} 
+                      <img  
+                        src={course.image}  
+                        alt={course.name}  
                         className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 hover:scale-105"
                         loading="lazy"
                         onError={(e) => {
                           (e.target as HTMLImageElement).style.display = 'none';
+                          const parentDiv = (e.target as HTMLImageElement).parentElement;
+                          if (parentDiv) {
+                            const placeholder = document.createElement('div');
+                            placeholder.className = "flex h-full w-full items-center justify-center bg-gradient-to-r from-gray-100 to-gray-200";
+                            placeholder.innerHTML = '<span class="text-gray-500 text-sm">Image unavailable</span>';
+                            if (!parentDiv.querySelector('.text-gray-500')) { // Avoid adding multiple placeholders
+                                parentDiv.appendChild(placeholder);
+                            }
+                          }
                         }}
                       />
                     ) : (
@@ -373,7 +426,6 @@ export default function Courses() {
                     )}
                   </div>
                   
-                  {/* Course Content */}
                   <div className="p-6 flex-grow flex flex-col">
                     <div className="flex-grow">
                       <h3 className="text-xl font-bold text-gray-800 mb-2 line-clamp-2">
@@ -389,15 +441,14 @@ export default function Courses() {
                           <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                           </svg>
-                          {course.name.toLowerCase().includes('crash') ? 'Completed' : `${course.startDate} - ${course.endDate}`}
+                          {course.name.toLowerCase().includes('crash') && course.startDate === 'Coming Soon' ? 'Completed / Coming Soon' : `${course.startDate} - ${course.endDate}`}
                         </div>
                         <div className="text-lg font-bold text-blue-600 mt-2">
-                          {course.name.toLowerCase().includes('crash') ? '-' : (course.cost ? `₹${course.cost.toLocaleString('en-IN')}` : '-')}
+                          {course.cost > 0 ? `₹${course.cost.toLocaleString('en-IN')}` : (course.startDate === 'Coming Soon' ? '-' : 'Free')}
                         </div>
                       </div>
                     </div>
                     
-                    {/* Benefits List */}
                     {course.benefits && course.benefits.length > 0 && (
                       <div className="mb-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-1">Key Benefits:</h4>
@@ -414,77 +465,73 @@ export default function Courses() {
                       </div>
                     )}
                     
-                    {/* Enroll Button */}
-<div className="mt-auto space-y-2">
-  {course.name.toLowerCase().includes('live') ? (
-    <>
-      {/* First Batch Button - Disabled */}
-      <button
-        disabled
-        className="w-full py-2 px-4 rounded-lg font-medium bg-gray-200 text-gray-500 line-through cursor-not-allowed flex items-center justify-center"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5 mr-2"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fillRule="evenodd"
-            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-            clipRule="evenodd"
-          />
-        </svg>
-        1st Batch Sold Out
-      </button>
-      
-      {/* 2nd Batch Apply Now Button */}
-      <button
-        onClick={() => handleEnrollClick(course)}
-        disabled={course.startDate === 'Coming Soon'}
-        className={`w-full py-2 px-4 rounded-lg font-medium ${
-          course.startDate === 'Coming Soon'
-            ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
-            : 'bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900 transition-all shadow-md'
-        }`}
-      >
-        2nd Batch: Apply Now
-      </button>
-    </>
-  ) : (
-    /* Regular Single Button for non-Live courses */
-    <button
-      onClick={() => course.startDate !== 'Coming Soon' && handleEnrollClick(course)}
-      disabled={course.startDate === 'Coming Soon' || course.name.toLowerCase().includes('crash')}
-      className={`w-full py-2 px-4 rounded-lg font-medium relative overflow-hidden group ${
-        course.name.toLowerCase().includes('crash')
-          ? 'bg-gradient-to-r from-gray-500 to-gray-700 text-white shadow-inner cursor-not-allowed'
-          : course.startDate === 'Coming Soon'
-            ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
-            : 'bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900 transition-all shadow-md'
-      }`}
-    >
-      {course.name.toLowerCase().includes('crash') ? (
-        <>
-          <span className="relative z-10 flex items-center justify-center gap-2">
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              className="h-5 w-5 text-yellow-400" 
-              viewBox="0 0 20 20" 
-              fill="currentColor"
-            >
-              <path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z" />
-            </svg>
-            Sold Out
-          </span>
-          <span className="absolute inset-0 bg-gradient-to-r from-gray-600/20 to-gray-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-          <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-yellow-400 to-yellow-600"></span>
-        </>
-      ) : (
-        course.startDate === 'Coming Soon' ? 'Coming Soon' : 'Enroll Now'
-      )}
-    </button>
-  )}
+                    <div className="mt-auto space-y-2">
+                      {course.name.toLowerCase().includes('live') ? (
+                        <>
+                          <button
+                            disabled
+                            className="w-full py-2 px-4 rounded-lg font-medium bg-gray-200 text-gray-500 line-through cursor-not-allowed flex items-center justify-center"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-5 w-5 mr-2"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                            1st Batch Sold Out
+                          </button>
+                          
+                          <button
+                            onClick={() => handleEnrollClick(course)}
+                            disabled={course.startDate === 'Coming Soon'}
+                            className={`w-full py-2 px-4 rounded-lg font-medium ${
+                              course.startDate === 'Coming Soon'
+                                ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                                : 'bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900 transition-all shadow-md'
+                            }`}
+                          >
+                            2nd Batch: Apply Now
+                          </button>
+                        </>
+                      ) : (
+                        <button
+                          onClick={() => (course.startDate !== 'Coming Soon' && !course.name.toLowerCase().includes('crash')) && handleEnrollClick(course)}
+                          disabled={course.startDate === 'Coming Soon' || course.name.toLowerCase().includes('crash')}
+                          className={`w-full py-2 px-4 rounded-lg font-medium relative overflow-hidden group ${
+                            course.name.toLowerCase().includes('crash')
+                              ? 'bg-gradient-to-r from-gray-500 to-gray-700 text-white shadow-inner cursor-not-allowed' 
+                              : course.startDate === 'Coming Soon'
+                                ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                                : 'bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900 transition-all shadow-md'
+                          }`}
+                        >
+                          {course.name.toLowerCase().includes('crash') ? (
+                            <>
+                              <span className="relative z-10 flex items-center justify-center gap-2">
+                                <svg  
+                                  xmlns="http://www.w3.org/2000/svg"  
+                                  className="h-5 w-5 text-yellow-400"  
+                                  viewBox="0 0 20 20"  
+                                  fill="currentColor"
+                                >
+                                  <path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z" />
+                                </svg>
+                                Sold Out
+                              </span>
+                              <span className="absolute inset-0 bg-gradient-to-r from-gray-600/20 to-gray-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-yellow-400 to-yellow-600"></span>
+                            </>
+                          ) : (
+                            course.startDate === 'Coming Soon' ? 'Coming Soon' : 'Enroll Now'
+                          )}
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -497,22 +544,22 @@ export default function Courses() {
       {/* Enrollment Modal */}
       {isModalOpen && selectedCourse && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-xl relative"> {/* Added relative here */}
-            <button 
+          <div className="bg-white rounded-lg max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-xl relative">
+            <button  
               onClick={handleCloseModal}
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10 bg-white rounded-full p-2 shadow-md" // Added some styling
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10 bg-white rounded-full p-2 shadow-md"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
 
-
             <div className="grid md:grid-cols-2 gap-0">
-              {/* Left Column: Course Details */}
               <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-8">
                 <h2 className="text-3xl font-bold text-gray-800 mb-4">{selectedCourse.name}</h2>
-                <div className="text-blue-600 text-2xl font-bold mb-6">₹{selectedCourse.cost.toLocaleString('en-IN')}</div>
+                {typeof selectedCourse.cost === 'number' && selectedCourse.cost > 0 && (
+                    <div className="text-blue-600 text-2xl font-bold mb-6">₹{selectedCourse.cost.toLocaleString('en-IN')}</div>
+                )}
                 
                 {selectedCourse.modalContent && (
                   <>
@@ -543,13 +590,16 @@ export default function Courses() {
                 )}
               </div>
 
-              {/* Right Column: Payment Form */}
+              {/* MODIFICATION START: Added Email and Phone input fields */}
               <div className="p-8">
-                <h3 className="text-2xl font-bold text-gray-800 mb-6">Enrollment Form</h3>
-                <form className="space-y-4">
+                <h3 className="text-2xl font-bold text-gray-800 mb-6">
+                  {selectedCourse.name.toLowerCase().includes('live') ? 'Application Details' : 'Enrollment Form'}
+                </h3>
+                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <label htmlFor={`name-${selectedCourse.name.replace(/\s+/g, '-')}`} className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
                     <input
+                      id={`name-${selectedCourse.name.replace(/\s+/g, '-')}`}
                       type="text"
                       name="name"
                       value={userDetails.name}
@@ -560,25 +610,57 @@ export default function Courses() {
                     />
                   </div>
                   
+                  <div>
+                    <label htmlFor={`email-${selectedCourse.name.replace(/\s+/g, '-')}`} className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input
+                      id={`email-${selectedCourse.name.replace(/\s+/g, '-')}`}
+                      type="email"
+                      name="email"
+                      value={userDetails.email}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Enter your email address"
+                      required={!selectedCourse.name.toLowerCase().includes('live')}
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor={`phone-${selectedCourse.name.replace(/\s+/g, '-')}`} className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <input
+                      id={`phone-${selectedCourse.name.replace(/\s+/g, '-')}`}
+                      type="tel"
+                      name="phone"
+                      value={userDetails.phone}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Enter your 10-digit phone number"
+                      pattern="[0-9]{10}" // Basic 10-digit pattern
+                      title="Please enter a valid 10-digit phone number"
+                      required={!selectedCourse.name.toLowerCase().includes('live')}
+                    />
+                  </div>
+                  {/* MODIFICATION END */}
+                  
                   <div className="pt-4">
-        {selectedCourse.name.toLowerCase().includes('live') ? (
-          <a
-            href="https://tally.so/r/wzLBNa"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-md text-center"
-          >
-            Apply Now
-          </a>
-        ) : (
-          <button
-            type="button"
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-md"
-            onClick={handleRazorpayPayment}
-          >
-            Pay ₹{selectedCourse.cost.toLocaleString('en-IN')}
-          </button>
-        )}
+                    {selectedCourse.name.toLowerCase().includes('live') ? (
+                      <a
+                        href="https://tally.so/r/wzLBNa" 
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-md text-center"
+                      >
+                        Apply Now (via Tally.so)
+                      </a>
+                    ) : (
+                      <button
+                        type="button" 
+                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-md"
+                        onClick={handleRazorpayPayment}
+                        disabled={typeof selectedCourse.cost !== 'number' || selectedCourse.cost <= 0}
+                      >
+                        {(typeof selectedCourse.cost === 'number' && selectedCourse.cost > 0) ? `Pay ₹${selectedCourse.cost.toLocaleString('en-IN')}` : 'Enroll (Free)'}
+                      </button>
+                    )}
                   </div>
                 </form>
               </div>
@@ -587,23 +669,22 @@ export default function Courses() {
         </div>
       )}
 
-      {/* Payment Success Modal */}
       {paymentSuccess && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-8 max-w-md w-full">
-            <div className="text-center">
-              <svg className="mx-auto h-16 w-16 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-8 max-w-md w-full text-center shadow-xl">
+            <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
+              <svg className="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
-              <h2 className="text-2xl font-bold text-green-600 mb-4">Payment Successful!</h2>
-              <p className="text-gray-700 mb-6">Thank you for enrolling in the course. You will receive a confirmation email shortly with access details.</p>
-              <button 
-                className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors font-medium"
-                onClick={handleCloseModal}
-              >
-                Close
-              </button>
             </div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Payment Successful!</h2>
+            <p className="text-gray-700 mb-6">Thank you for enrolling in {selectedCourse?.name}. You will receive a confirmation email shortly with access details.</p>
+            <button  
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              onClick={handleCloseModal}
+            >
+              Close
+            </button>
           </div>
         </div>
       )}
